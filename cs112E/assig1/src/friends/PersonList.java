@@ -12,15 +12,28 @@ public class PersonList {
 	// if none exists, returns null.  Runs in O(number of persons in this list) 
 	public Person lookup(String name){
 		
-		return null; // replace this line
-	
+		if(this.firstPerson == null)
+		{
+			return null;
+		}
+		
+		for(Person p = this.firstPerson; p != null; p = p.nextPerson)
+		{
+			if(p.name.equals(name))
+			{
+				return p;
+			}
+		}
+		
+		return null;
 	}
 	
 	// creates a new Person object with name and adds it to the list of 
 	// Person objects.  Runs in O(1)
 	public Person addPerson(String name){
 		
-		return null; // replace this line
+		this.firstPerson = new Person(name, this.firstPerson);
+		return this.firstPerson;
 		}
 
 }
