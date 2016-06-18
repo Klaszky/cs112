@@ -157,25 +157,31 @@ public class Polynomial {
 	 * @return A new polynomial which is the sum of this polynomial and p.
 	 */
 	public Polynomial add(Polynomial p) {
-		/** COMPLETE THIS METHOD **/
+		
+		// This polynomial will be with is returned to the calling method
 		Polynomial returnFront = new Polynomial();
-		while(this.poly != null && p.poly != null)
+		
+		// Grabbing this node to work with so I don't accidentally delete anything.
+		Node front = this.poly;
+		
+		
+		while(front != null && p.poly != null)
 		{
-			if(this.poly.term.degree == p.poly.term.degree)
+			if(front.term.degree == p.poly.term.degree)
 			{
-				if((this.poly.term.coeff + p.poly.term.coeff) != 0)
+				if((front.term.coeff + p.poly.term.coeff) != 0)
 				{
-					returnFront.poly = addToEnd(returnFront.poly, new Node(this.poly.term.coeff + p.poly.term.coeff, this.poly.term.degree, null));
-					this.poly = this.poly.next;
+					returnFront.poly = addToEnd(returnFront.poly, new Node(front.term.coeff + p.poly.term.coeff, front.term.degree, null));
+					front = front.next;
 					p.poly = p.poly.next;	
 				}
 				else
 				{
-					this.poly = this.poly.next;
+					front = front.next;
 					p.poly = p.poly.next;
 				}
 			}
-			else if(this.poly.term.degree > p.poly.term.degree)
+			else if(front.term.degree > p.poly.term.degree)
 			{
 				returnFront.poly = addToEnd(returnFront.poly, new Node(p.poly.term.coeff, p.poly.term.degree, null));
 				p.poly = p.poly.next;
@@ -183,8 +189,8 @@ public class Polynomial {
 			}
 			else
 			{
-				returnFront.poly = addToEnd(returnFront.poly, new Node(this.poly.term.coeff, this.poly.term.degree, null));
-				this.poly = this.poly.next;
+				returnFront.poly = addToEnd(returnFront.poly, new Node(front.term.coeff, front.term.degree, null));
+				front = front.next;
 			}
 		}
 
@@ -194,13 +200,11 @@ public class Polynomial {
 			p.poly = p.poly.next;
 		}
 		
-		while(this.poly != null)
+		while(front != null)
 		{
-			returnFront.poly = addToEnd(returnFront.poly, new Node(this.poly.term.coeff, this.poly.term.degree, null));
-			this.poly = this.poly.next;			
+			returnFront.poly = addToEnd(returnFront.poly, new Node(front.term.coeff, front.term.degree, null));
+			front = front.next;			
 		}
-		
-
 		return returnFront;
 	}
 	
@@ -214,27 +218,18 @@ public class Polynomial {
 	public Polynomial multiply(Polynomial p) 
 	{
 		Polynomial finalP = new Polynomial();
-//		Polynomial temp2 = new Polynomial();
 		Polynomial temp = new Polynomial();
 		Node n = p.poly;
 		for(Node polyPtr = this.poly; polyPtr != null; polyPtr = polyPtr.next)
 		{
+			temp = new Polynomial();
 			
-			System.out.println("polyPtr = " + polyPtr);
 			for(Node ptr = n; ptr != null; ptr = ptr.next)
 			{
-				System.out.println("temp = " + temp);
 				temp.poly = addToEnd(temp.poly, mult(polyPtr, ptr));				
 			}
-			
-			System.out.println("temp = " + temp);
-			
+	
 			finalP = addV2(finalP, temp);
-//			temp = null;
-			
-			System.out.println("finalP = "+finalP);
-			
-
 		}
 		
 		return finalP;
@@ -249,10 +244,11 @@ public class Polynomial {
 	public float evaluate(float x) 
 	{
 		float sum = 0;
-		while(this.poly != null)
+		Node front = this.poly;
+		while(front != null)
 		{
-			sum += (this.poly.term.coeff * power(x, this.poly.term.degree));
-			this.poly = this.poly.next;
+			sum += (front.term.coeff * power(x, front.term.degree));
+			front = front.next;
 		}
 		
 		return sum;
@@ -310,47 +306,48 @@ public class Polynomial {
 	}
 	
 	public Polynomial addV2(Polynomial q, Polynomial p) {
-		/** COMPLETE THIS METHOD **/
+		/** FIX THIS METHOD **/
 		Polynomial returnFront = new Polynomial();
-		while(q.poly != null && p.poly != null)
+		Node m = q.poly, n = p.poly;
+		while(m != null && n != null)
 		{
-			if(q.poly.term.degree == p.poly.term.degree)
+			if(m.term.degree == n.term.degree)
 			{
-				if((q.poly.term.coeff + p.poly.term.coeff) != 0)
+				if((m.term.coeff + n.term.coeff) != 0)
 				{
-					returnFront.poly = addToEnd(returnFront.poly, new Node(q.poly.term.coeff + p.poly.term.coeff, q.poly.term.degree, null));
-					q.poly = q.poly.next;
-					p.poly = p.poly.next;	
+					returnFront.poly = addToEnd(returnFront.poly, new Node(m.term.coeff + n.term.coeff, m.term.degree, null));
+					m = m.next;
+					n = n.next;	
 				}
 				else
 				{
-					q.poly = q.poly.next;
-					p.poly = p.poly.next;
+					m = m.next;
+					n = n.next;
 				}
 			}
-			else if(q.poly.term.degree > p.poly.term.degree)
+			else if(m.term.degree > n.term.degree)
 			{
-				returnFront.poly = addToEnd(returnFront.poly, new Node(p.poly.term.coeff, p.poly.term.degree, null));
-				p.poly = p.poly.next;
+				returnFront.poly = addToEnd(returnFront.poly, new Node(n.term.coeff, n.term.degree, null));
+				n = n.next;
 				
 			}
 			else
 			{
-				returnFront.poly = addToEnd(returnFront.poly, new Node(q.poly.term.coeff, q.poly.term.degree, null));
-				q.poly = q.poly.next;
+				returnFront.poly = addToEnd(returnFront.poly, new Node(m.term.coeff, m.term.degree, null));
+				m = m.next;
 			}
 		}
 
-		while(p.poly != null)
+		while(n != null)
 		{
-			returnFront.poly = addToEnd(returnFront.poly, new Node(p.poly.term.coeff, p.poly.term.degree, null));
-			p.poly = p.poly.next;
+			returnFront.poly = addToEnd(returnFront.poly, new Node(n.term.coeff, n.term.degree, null));
+			n = n.next;
 		}
 		
-		while(q.poly != null)
+		while(m != null)
 		{
-			returnFront.poly = addToEnd(returnFront.poly, new Node(q.poly.term.coeff, q.poly.term.degree, null));
-			q.poly = q.poly.next;			
+			returnFront.poly = addToEnd(returnFront.poly, new Node(m.term.coeff, m.term.degree, null));
+			m = m.next;			
 		}
 		
 
