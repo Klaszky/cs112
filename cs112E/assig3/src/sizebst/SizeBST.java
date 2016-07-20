@@ -1,6 +1,5 @@
 package sizebst;
 
-
 /**
  * Class SizeBST represents a Binary Search Tree that can also be used, for any integer j,
  *  to answer the question "how many numbers in the tree are less than or equal to j" in worst 
@@ -13,47 +12,87 @@ package sizebst;
  *
  */
 public class SizeBST {
+
+	public static void main(String[] args )
+	{
+//		Random rand = new Random();
+//		int maxNum = 1000;
+//		SizeBST tree1 = new SizeBST(null);
+//		tree1.insert(40);
+//		tree1.insert(20);
+//		tree1.insert(60);
+//		tree1.insert(10);
+//		tree1.insert(30);
+//		tree1.insert(50);
+//		tree1.insert(55);
+//		tree1.insert(53);
+//		System.out.println(tree1);
+//		System.out.println(tree1.numLEq(160));
+		
+//		for(int i = 0; i < 101; i++)
+//		{
+//			tree1.insert(rand.nextInt(maxNum));
+//		}
+//		
+//		System.out.println("empty: "+tree1);
+//		tree1.insert(40);
+//		System.out.println(tree1);
+//		
+//		tree1.insert(32);
+//		System.out.println(tree1);
+//		tree1.insert(69);
+//		
+//		System.out.println(tree1);
+//		tree1.insert(30);
+//		System.out.println(tree1);
+//		tree1.insert(24);
+//		System.out.println(tree1);
+//		tree1.insert(10);
+//		System.out.println(tree1);
+//		tree1.insert(25);
+//		System.out.println(tree1);		
+//		tree1.insert(100);
+//		System.out.println(tree1);
+//		
+//		
+//		tree1.insert(41);
+//		System.out.println(tree1);
+//		tree1.insert(33);
+//		System.out.println(tree1);
+//		tree1.insert(36);
+//		System.out.println(tree1);
+//		tree1.insert(45);
+//		System.out.println(tree1);
+//		tree1.insert(44);
+//		System.out.println(tree1);
+//		tree1.insert(65);
+//		System.out.println(tree1);
+//		tree1.insert(64);
+//		System.out.println(tree1);
+//		tree1.insert(62);
+//		System.out.println(tree1);
+//		
+//		System.out.println(tree1.numLEq(40));
+//		System.out.println(tree1.search(43));
+
 	
-	public static void main(String[] args ){
-		SizeBST tree1 = new SizeBST(null);
-		System.out.println("empty: "+tree1);
-		tree1.insert(40);
-		System.out.println("40 "+tree1);
-		System.out.println(tree1);
-		
-		tree1.insert(32);
-		System.out.println(tree1);
-		tree1.insert(69);
-		
-		System.out.println(tree1);
-		tree1.insert(30);
-		System.out.println(tree1);
-		tree1.insert(24);
-		System.out.println(tree1);
-		tree1.insert(10);
-		System.out.println(tree1);
-		tree1.insert(25);
-		System.out.println(tree1);		
-		tree1.insert(100);
-		System.out.println(tree1);
-		
-		
-		System.out.println(tree1.numLEq(99));
-		System.out.println(tree1.search(43));
-		
 	}
 	
 	SizeBSTN rootNode;
 
-	public SizeBST(SizeBSTN root){
+	public SizeBST(SizeBSTN root)
+	{
 		rootNode =  root;
 	}
 
 	public String toString(){
 		if (rootNode == null)
+		{
 			return "(null)";
-		else {
-			return "("+ SizeBSTN.nodeString(rootNode) + ")";
+		}
+		else 
+		{
+			return "(" + SizeBSTN.nodeString(rootNode) + ")";
 		}
 	}
 
@@ -61,7 +100,8 @@ public class SizeBST {
 	 * @param target the number to search for
 	 * @return true iff target is in this tree
 	 */
-	public boolean search(int target){
+	public boolean search(int target)
+	{
 		SizeBSTN found =  SizeBSTN.getNode(this.rootNode, target);
 		if(found.data == target)
 		{
@@ -75,7 +115,8 @@ public class SizeBST {
 	 * insert newData into tree;  if already there, do not change tree
 	 * @param newData int to insert
 	 */
-	public void insert(int newData){
+	public void insert(int newData)
+	{
 		if(this.rootNode == null)
 		{
 			this.rootNode = new SizeBSTN(newData);
@@ -91,10 +132,13 @@ public class SizeBST {
 			if(found.data > newData)
 			{
 				found.LSubtree = new SizeBSTN(newData);
+				SizeBSTN.getNodeIncr(this.rootNode, newData);
 			}
 			else
 			{
 				found.RSubtree = new SizeBSTN(newData);
+				SizeBSTN.getNodeIncr(this.rootNode, newData);
+				
 			}
 		}
 	}
@@ -103,7 +147,8 @@ public class SizeBST {
 	 * @return returns how many numbers in the tree are less than or equal to target.  Returns -1 if tree is empty
 	 * @param target
 	 */
-	public int numLEq(int target){
+	public int numLEq(int target)
+	{
 		return SizeBSTN.sumNodesLeq(this.rootNode, target);
 	}
 
